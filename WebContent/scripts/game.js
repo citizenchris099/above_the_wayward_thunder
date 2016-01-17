@@ -1,7 +1,56 @@
-// JavaScript Document
+// character object
+function character(name, ocupation, drive, abilities, abilitypoints, stability, sanity, inventory, currentLocation, beenTo) {
+	this.name = name;
+	this.ocupation = ocupation;
+	this.drive = drive;
+	this.abilities = abilities;
+	this.abilitypoints = abilitypoints;
+	this.stability = stability;
+	this.sanity = sanity;
+	this.inventory = inventory;
+	this.currentLocation = currentLocation;
+	this.beenTo = beenTo;
+}
+
+var drakeObj = new character("Drake Robinson", "private investigator", "curiosity", [], 8, 3, 3, [], "", []);
+
+var abilityOptions = [ "test1", "test2" ]
+
+var removeAbilityOption = function(item) {
+	for (var i = abilityOptions.length - 1; i >= 0; i--) {
+		if (array[i] === item) {
+			return array.splice(i, 1);
+		}
+	}
+};
+
+// used to remove items from character object inventory
+var removeInvItem = function(obj, item) {
+	var array = obj["inventory"]
+	for (var i = array.length - 1; i >= 0; i--) {
+		if (array[i] === item) {
+			return array.splice(i, 1);
+		}
+	}
+};
+
+// used to add items to character object inventory
+var addInvItem = function(obj, item) {
+	obj["inventory"].push(item);
+};
+
+// used to add abilities to character object abilities
+var addAbility = function(obj, ability) {
+	obj["abilities"].push(ability);
+};
+
+// used to add location to character object beenTo array
+var addBeenTo = function(obj, location) {
+	obj["beenTo"].push(location);
+};
 
 //
-//SETS ALL VARIABLES FOR THE GAME
+// SETS ALL VARIABLES FOR THE GAME
 //
 cellunlocked = false;
 beentohallway = false;
@@ -12,7 +61,6 @@ beentobonus = false;
 exitunlocked = false;
 beentoexit = false;
 // inventory
-paperclip = false;
 deadbugs = false;
 lunchtray = false;
 torch = false;
@@ -35,8 +83,8 @@ $(document)
 				function() {
 					$("#compass").fadeIn(3000);
 					$("#message_begin").fadeIn(3000);
-					$("#area_main").fadeIn(3000);
-					$("#command_line").fadeIn(3000);
+					$("#begin_character").fadeIn(3000);
+					$("#command_line").fadeIn(5000);
 					$("form")
 							.submit(
 									function() {
@@ -53,6 +101,38 @@ $(document)
 										//
 										// end help
 										//
+
+										//
+										// add abilities
+										//
+										else if (input.indexOf("list") > -1 || input.indexOf("List") > -1) {
+											if (input == "list" && drakeObj["abilities"].length < 8) {
+												$('<p>Available abiliites:<br /></p>').insertBefore("#placeholder").fadeIn(
+														1000);
+												for (var count = 0; count < abilityOptions.length; count++) {
+													$('<p>' + abilityOptions[count] + '<br /></p>').insertBefore(
+															"#placeholder").fadeIn(1000);
+												}
+												$(
+														'<p>type the name of the ability from the above list that you would like to add to your character.<br /></p>')
+														.insertBefore("#placeholder").fadeIn(1000);
+											}
+										}
+
+										else if (input.indexOf("test1") > -1) {
+											if (input == "test1" && drakeObj["abilities"].length < 8
+													&& abilityOptions.indexOf('test1') > -1) {
+												addAbility(drakeObj, "test1")
+												$('<p>the test1 ability was added.<br /></p>').insertBefore("#placeholder")
+														.fadeIn(1000);
+											}
+										}
+
+										else if (input.indexOf("out") > -1 || input.indexOf("Out") > -1) {
+											if (input == "out") {
+												$("#ability").fadeOut(1000);
+											}
+										}
 
 										//
 										// take
